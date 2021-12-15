@@ -3,7 +3,6 @@
 #include <unistd.h> // sleep()関数を使う
 #include <time.h>
 #include <string.h>
-#include "gol.h"
 
 void my_init_cells(const int height, const int width, int cell[height][width], FILE* fp);
 void my_print_cells(FILE* fp, int gen, const int height, const int width, int cell[height][width]);
@@ -209,20 +208,26 @@ int my_count_adjacent_cells(int h, int w, const int height, const int width, int
                     return cell[h][w+1]+cell[h-1][w]+cell[h-1][w+1]+cell[h-1][w-1]+cell[h][w-1];
                 }
             }else{
-                return (cell[h][w+1]+cell[h-1][w]+cell[h-1][w+1]+cell[h-1][w-1]+cell[h][w-1]+cell[h+1][w-1]+cell[h+1][w]+cell[h+1][w+1]);
+                return cell[h][w+1]+cell[h-1][w]+cell[h-1][w+1]+cell[h-1][w-1]+cell[h][w-1]+cell[h+1][w-1]+cell[h+1][w]+cell[h+1][w+1];
             }
 }
 
 void my_update_cells(const int height, const int width, int cell[height][width]){
+    int cell2[height][width];
     for(int y = 0 ; y < height ; y++){
         for(int x = 0 ; x < width ; x++){
-            if (cell[y][x]==1){
-                if(!((my_count_adjacent_cells(y,x,height,width,cell)==2)||(my_count_adjacent_cells(y,x,height,width,cell)==3))){
-                    cell[y][x]=0;
+            cell2[y][x]=cell[y][x];           
+        }
+    }
+    for(int h = 0 ; h < height ; h++){
+        for(int w = 0 ; w < width ; w++){
+            if (cell[h][w]==1){
+                if(!((my_count_adjacent_cells(h,w,height,width,cell2)==2)||(my_count_adjacent_cells(h,w,height,width,cell2)==3))){
+                    cell[h][w]=0;
                 }
             }else{
-                if(my_count_adjacent_cells(y,x,height,width,cell)==3){
-                    cell[y][x]=1;
+                if(my_count_adjacent_cells(h,w,height,width,cell2)==3){
+                    cell[h][w]=1;
                 }
             }
         }
