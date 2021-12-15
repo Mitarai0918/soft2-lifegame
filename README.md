@@ -1,1 +1,2 @@
-# soft2-lifegame
+mylife3.cに全てまとめた。
+新たにput_cellsというLife1.06形式でファイルを出力する関数を作成した。
